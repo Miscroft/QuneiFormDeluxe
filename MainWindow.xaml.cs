@@ -24,6 +24,7 @@ namespace QuneiForm
     public partial class MainWindow : Window
     {
         bool _istrue = false;
+        bool _recypher = false;
         private List<string> _mudblock = new List<string>();
         public class Zipbag
         {
@@ -37,6 +38,8 @@ namespace QuneiForm
         private List<Zipbag> _account = new List<Zipbag>();
         private List<string> _zipbagtocypher = new List<string>();
         private string _zipbagcyphered = "";
+        private string _zipbagcyphered_recover = "";
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -83,10 +86,6 @@ namespace QuneiForm
         {
             MudBlock.AppendText("🤛");
         }
-        private void Deal_failed_click(object sender, RoutedEventArgs e)
-        {
-            MudBlock.AppendText("⚔");
-        }
 
         private void Pay_1_buck_click(object sender, RoutedEventArgs e)
         {
@@ -113,7 +112,7 @@ namespace QuneiForm
             MudBlock.AppendText("Ⓒ");
         }
 
-        private void Accept_1_buck_click(object sender, RoutedEventArgs e)
+        private void Accept_1_buck(object sender, RoutedEventArgs e)
         {
             MudBlock.AppendText("一");
         }
@@ -143,19 +142,9 @@ namespace QuneiForm
             MudBlock.AppendText("㈠");
         }
 
-        private void Repay1(object sender, RoutedEventArgs e)
-        {
-            MudBlock.AppendText("㍙");
-        }
-
         private void Zipperbag2(object sender, RoutedEventArgs e)
         {
             MudBlock.AppendText("㈡");
-        }
-
-        private void Repay2(object sender, RoutedEventArgs e)
-        {
-            MudBlock.AppendText("㍚");
         }
 
         private void Heavier_than(object sender, RoutedEventArgs e)
@@ -241,17 +230,55 @@ namespace QuneiForm
             MudBlock.AppendText("📌");
         }
         #endregion
+        private void Deal_failed_click(object sender, RoutedEventArgs e)
+        {
+            _zipbag = new List<Zipbag>
+                    {
+                        new Zipbag(),
+                        new Zipbag(),
+                        new Zipbag(),
+                        new Zipbag()
+                    };
+            _zipbagposition = 0;
+
+            DealerMessage.Document.Blocks.Clear();
+            DealerMessage.AppendText("以下是交易明細：");
+            DealerMessage.AppendText(Environment.NewLine);
+            DealerMessage.AppendText(_zipbagcyphered);
+            DealerMessage.AppendText(Environment.NewLine);
+            DealerMessage.AppendText("會員總共買了：" + _zipbag.Count.ToString() + "包");
+            DealerMessage.AppendText(Environment.NewLine);
+            DealerMessage.AppendText("現在在第：" + (_zipbagposition + 1).ToString() + "包");
+            DealerMessage.AppendText(Environment.NewLine);
+            DealerMessage.AppendText("這包價值：" + _zipbag[_zipbagposition].PRICE.ToString() + "元");
+            DealerMessage.AppendText(Environment.NewLine);
+            DealerMessage.AppendText("這包有：" + _zipbag[_zipbagposition].DRUG.X.ToString() + "包🍁，" +
+                _zipbag[_zipbagposition].DRUG.Y.ToString() + "包🍄，" +
+                _zipbag[_zipbagposition].MEDICINE.X.ToString() + "顆💊，" +
+                _zipbag[_zipbagposition].MEDICINE.Y.ToString() + "顆⛔，");
+
+            _mudblock.Clear();
+        }
 
         private void Wallet_click(object sender, RoutedEventArgs e)
         {
-            if(_mudblock.Count == 0)
+            if (_recypher)
             {
-                TextRange textRange = new TextRange( MudBlock.Document.ContentStart, MudBlock.Document.ContentEnd );
-                var info = new StringInfo(textRange.Text);
+                var info = new StringInfo(_zipbagcyphered);
                 var realLength = info.LengthInTextElements;
                 for (int i = 0; i < realLength; i++)
-                    _mudblock.Add(StringInfo.GetNextTextElement(textRange.Text, i));
+                    _mudblock.Add(StringInfo.GetNextTextElement(_zipbagcyphered, i));
+                _recypher = false;
             }
+            else if (_mudblock.Count == 0)
+            {
+                TextRange textRange = new(MudBlock.Document.ContentStart, MudBlock.Document.ContentEnd);
+                var info = new StringInfo(textRange.Text);
+                var realLength = info.LengthInTextElements;
+                for (int i = 0; i < realLength - 1; i++)
+                    _mudblock.Add(info.SubstringByTextElements(i, 1));
+            }
+
             for (int i_mudblock = 0; i_mudblock < _mudblock.Count; i_mudblock++)
             {
                 if (_mudblock[i_mudblock] == "📦")
@@ -260,17 +287,6 @@ namespace QuneiForm
                     _zipbag.Add(new Zipbag());
                     _zipbag.Add(new Zipbag());
                     _zipbag.Add(new Zipbag());
-                }
-                else if (_mudblock[i_mudblock] == "⚔")
-                {
-                    _zipbag = new List<Zipbag>
-                    {
-                        new Zipbag(),
-                        new Zipbag(),
-                        new Zipbag(),
-                        new Zipbag()
-                    };
-                    _zipbagposition = 0;
                 }
                 else if (_mudblock[i_mudblock] == "🆑")
                 {
@@ -372,7 +388,7 @@ namespace QuneiForm
                 {
                     double _drug = 0.0;
                     string _test = "";
-                    int i_test = i_mudblock + 2;
+                    int i_test = i_mudblock + 1;
                     for(; _mudblock[i_test] != "🍁" && i_test < _mudblock.Count - 1; i_test++)
                     {
                         _test += _mudblock[i_test];
@@ -387,7 +403,7 @@ namespace QuneiForm
                 {
                     double _drug = 0.0;
                     string _test = "";
-                    int i_test = i_mudblock + 2;
+                    int i_test = i_mudblock + 1;
                     for (; _mudblock[i_test] != "🍄" && i_test < _mudblock.Count - 1; i_test++)
                     {
                         _test += _mudblock[i_test];
@@ -402,7 +418,7 @@ namespace QuneiForm
                 {
                     double _drug = 0.0;
                     string _test = "";
-                    int i_test = i_mudblock + 2;
+                    int i_test = i_mudblock + 1;
                     for (; _mudblock[i_test] != "💊" && i_test < _mudblock.Count - 1; i_test++)
                     {
                         _test += _mudblock[i_test];
@@ -415,9 +431,8 @@ namespace QuneiForm
                 }
                 else if (_mudblock[i_mudblock] == "⛔")
                 {
-                    double _drug = 0.0;
                     string _test = "";
-                    int i_test = i_mudblock + 2;
+                    int i_test = i_mudblock + 1;
                     for (; _mudblock[i_test] != "⛔" && i_test < _mudblock.Count - 1; i_test++)
                     {
                         _test += _mudblock[i_test];
@@ -425,7 +440,7 @@ namespace QuneiForm
                     if (i_test == _mudblock.Count) return;
                     else i_mudblock = i_test;
 
-                    if (Double.TryParse(_test, out _drug))
+                    if (Double.TryParse(_test, out double _drug))
                         _zipbag[_zipbagposition].MEDICINE.Y = _drug;
                 }
                 else if (_mudblock[i_mudblock] == "➕")
@@ -467,12 +482,23 @@ namespace QuneiForm
                 {
 
                 }
+                else if (_mudblock[i_mudblock] == "🙏")
+                {
+                    int i_mudblock_temp = i_mudblock + 1;
+                    for (; i_mudblock_temp < _mudblock.Count && _mudblock[i_mudblock_temp] != "🙏"; i_mudblock_temp++)
+                    {
+                        string mb = _mudblock[i_mudblock_temp];
+                        byte[] bytes = Encoding.Unicode.GetBytes(mb);
+                        string string_temp = Convert.ToHexString(bytes).ToString();
+                        if(string_temp != "FDFF")
+                        _zipbagcyphered_recover += Convert.ToHexString(bytes).ToString();
+                    }
+                    i_mudblock = i_mudblock_temp;
+                }
                 else if (_mudblock[i_mudblock] == "🤛")
                 {
-                    foreach (var bag in _zipbagcyphered)
-                    {
-                        _mudblock.Add(bag.ToString());
-                    }
+                    _recypher = true;
+                    Wallet_click(sender, e);
                 }
             }
             _zipbagtocypher = new List<string>();
@@ -480,12 +506,12 @@ namespace QuneiForm
             {
                 int bagPRICE = bag.PRICE;
                 if(bagPRICE < 0) bagPRICE *= -1;
-                bagPRICE = bagPRICE % 256;
+                bagPRICE %= 256;
                 _zipbagtocypher.Add(Convert.ToString(bagPRICE, 16));
             }
 
             _zipbagcyphered = "";
-            for (int i_cypher = 0; i_cypher < _zipbagtocypher.Count - 1; i_cypher += 4)
+            for (int i_cypher = 0; i_cypher < _zipbagtocypher.Count ; i_cypher += 4)
             {
                 byte[] bytes = new byte[4];
                 bytes[1] = Convert.ToByte(_zipbagtocypher[i_cypher], 16);
@@ -494,6 +520,13 @@ namespace QuneiForm
                 bytes[2] = Convert.ToByte(_zipbagtocypher[i_cypher + 3], 16);
                 _zipbagcyphered += Encoding.Unicode.GetString(bytes);
             }
+
+            if(_zipbagcyphered_recover.Length> 0)
+            {
+                _zipbagcyphered = _zipbagcyphered_recover;
+                _zipbagcyphered_recover = "";
+            }
+
             DealerMessage.Document.Blocks.Clear();
             DealerMessage.AppendText("以下是交易明細：");
             DealerMessage.AppendText(Environment.NewLine);
