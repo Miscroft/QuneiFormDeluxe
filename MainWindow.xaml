@@ -7,18 +7,17 @@
         mc:Ignorable="d"
         Title="QuneiForm Online Drug Dealing System" Height="600" Width="800">
     <Grid Background="Black">
-        <Grid HorizontalAlignment="Left" Width="399">
-            <RichTextBox x:Name="MudBlock" Background="#FFC7621C" Width="399" FontWeight="Bold" FontSize="40">
-            </RichTextBox>
+        <Grid HorizontalAlignment="Left" Grid.IsSharedSizeScope="True">
+            <RichTextBox x:Name="MudBlock" Background="#FFC7621C" Width="400" FontWeight="Bold" VerticalScrollBarVisibility="Visible" FontSize="40"/>
         </Grid>
         <Button x:Name="upper" Content="👆" HorizontalAlignment="Left" Height="30" Margin="414,12,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="Upper_click" ToolTip="上一個夾鏈袋"/>
         <Button x:Name="lower" Content="👇" HorizontalAlignment="Left" Height="30" Margin="449,12,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" ToolTip="下一個夾鏈袋" Click="Lower_click"/>
         <Button x:Name="left" Content="👈" HorizontalAlignment="Left" Height="30" Margin="484,12,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" ToolTip="第一個夾鏈袋" Click="First_click"/>
         <Button x:Name="right" Content="👉" HorizontalAlignment="Left" Height="30" Margin="519,12,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" ToolTip="最後一個夾鏈袋" Click="Last_click"/>
-        <Button x:Name="clean_this_zipper" Content="🆑" HorizontalAlignment="Left" Height="30" Margin="449,47,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" ToolTip="清空所有夾鏈袋" Click="Clear_click"/>
+        <Button x:Name="clean_this_zipper" Content="🆑" HorizontalAlignment="Left" Height="30" Margin="449,47,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" ToolTip="清空此夾鏈袋" Click="Clear_click"/>
         <Button x:Name="how_much" Content="🙏" HorizontalAlignment="Left" Height="30" Margin="554,12,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="How_much_click" ToolTip="在手心寫下暗號"/>
         <Button x:Name="wallet" Content="💸" HorizontalAlignment="Left" Height="63" Margin="600,119,0,0" VerticalAlignment="Top" Width="65" Background="{x:Null}" Foreground="White" FontSize="48" Click="Wallet_click" ToolTip="結帳"/>
-        <Button x:Name="cypher" Content="🤛" HorizontalAlignment="Left" Height="30" Margin="670,12,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="cypher_click" ToolTip="再次從訊息上解讀可疑訊息！"/>
+        <Button x:Name="cypher" Content="🤛" HorizontalAlignment="Left" Height="30" Margin="670,12,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="Cypher_click" ToolTip="再次從訊息上解讀可疑訊息！"/>
         <Button x:Name="deal_failed" Content="⚔" HorizontalAlignment="Left" Height="63" Margin="670,119,0,0" VerticalAlignment="Top" Width="65" Background="{x:Null}" Foreground="White" FontSize="48" Click="Deal_failed_click" ToolTip="有內鬼！停止交易！"/>
         <Button x:Name="pay_1_buck" Content="➀" HorizontalAlignment="Left" Height="30" Margin="414,82,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="24" Click="Pay_1_buck_click" ToolTip="付一美元"/>
         <Button x:Name="pay_5_buck" Content="➄" HorizontalAlignment="Left" Height="30" Margin="449,82,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="24" Click="Pay_5_buck_click" ToolTip="付五美元"/>
@@ -49,6 +48,9 @@
         <Button x:Name="devided_by" Content="➗" HorizontalAlignment="Left" Height="30" Margin="740,82,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="Devided_by" ToolTip="除以"/>
         <Button x:Name="more" Content="📦" HorizontalAlignment="Left" Height="30" Margin="414,47,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="More" ToolTip="再開一箱！"/>
         <Button x:Name="pin" Content="📌" HorizontalAlignment="Left" Height="30" Margin="519,47,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="Pin_click" ToolTip="若確定則回到這裡"/>
+        <Button x:Name="zipperbag3" Content="㈢" HorizontalAlignment="Left" Height="30" Margin="414,187,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="Zipperbag3" ToolTip="收進第三帳戶"/>
+        <Button x:Name="zipperbag4" Content="㈣" HorizontalAlignment="Left" Height="30" Margin="449,187,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="Zipperbag4" ToolTip="收進第四帳戶"/>
+        <Button x:Name="exchange" Content="🙅" HorizontalAlignment="Left" Height="30" Margin="484,187,0,0" VerticalAlignment="Top" Width="30" Background="{x:Null}" Foreground="White" FontSize="20" Click="Exchange" ToolTip="這一包跟下一包交換"/>
 
         <Grid Margin="399,222,0,2">
             <RichTextBox x:Name="DealerMessage" Background="Black" Foreground="White" AutomationProperties.HelpText="藥販的訊息" IsReadOnly="True" FontSize="20">
